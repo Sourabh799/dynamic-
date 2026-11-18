@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gardening ERP - Login</title>
+
+</head>
+<link rel="stylesheet" href="style.css">
+<body>
+
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo">
+        🌿 Green Garden
+    </div>
+
+    <div class="header-center">
+        Session Timeout:
+        <span id="timer">00:10:00</span>
+    </div>
+
+    <div class="header-right">
+        <button class="subscribe-btn" onclick="subscribe()">
+            Subscribe
+        </button>
+
+        <button class="profile-btn" onclick="profile()"
+        title="Profile">
+            👤
+        </button>
+    </div>
+
+</header>
+
+<!-- MAIN LOGIN SECTION -->
+<main>
+
+    <div class="login-card">
+
+        <h2>Welcome Back!</h2>
+        <p>Login to your Green Garden Account</p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label>User Name</label>
+                <input type="text"
+                       id="username"
+                       placeholder="Enter your username"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password"
+                       id="password"
+                       placeholder="Enter your password"
+                       required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+            <a href="#" class="forgot"
+               onclick="forgotPassword(event)">
+                Forgot Password?
+            </a>
+
+        </form>
+
+        <div id="message"></div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="social-links">
+        <a href="https://facebook.com" target="_blank">f</a>
+        <a href="https://instagram.com" target="_blank">◎</a>
+        <a href="https://twitter.com" target="_blank">𝕏</a>
+        <a href="https://youtube.com" target="_blank">▶</a>
+    </div>
+
+    <div class="footer-links">
+        <a href="#" onclick="aboutUs(event)">About Us</a>
+        <a href="#" onclick="contactUs(event)">Contact Us</a>
+        <a href="mailto:support@example.com">Email</a>
+        <a href="#" onclick="documentation(event)">Documentation</a>
+    </div>
+
+    <div style="font-size:12px;color:#777;">
+        © 2026 Green Garden
+    </div>
+
+</footer>
+<script src="script.js"></script>
+
+</body>
+</html>
+

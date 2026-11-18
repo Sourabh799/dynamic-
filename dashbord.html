@@ -1,0 +1,1091 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Garden ERP Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f3f7f2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+header {
+    height: 85px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.header-left {
+    width: 210px;
+}
+
+.logo {
+    font-size: 24px;
+    color: #267b3e;
+    font-weight: bold;
+}
+
+.menu-btn {
+    margin-top: 5px;
+    padding: 5px 13px;
+    background: #e8f4e9;
+    border: none;
+    color: #267b3e;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-box {
+    display: flex;
+    width: 40%;
+    max-width: 480px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 11px 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px 0 0 7px;
+    outline: none;
+}
+
+.search-box button {
+    padding: 11px 20px;
+    background: #267b3e;
+    color: white;
+    border: none;
+    border-radius: 0 7px 7px 0;
+    cursor: pointer;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+#timer {
+    font-weight: bold;
+    color: #e05b36;
+    font-size: 15px;
+}
+
+.subscribe-btn {
+    background: #267b3e;
+    color: white;
+    border: none;
+    padding: 10px 17px;
+    border-radius: 22px;
+    cursor: pointer;
+}
+
+.profile-container {
+    position: relative;
+}
+
+.profile-btn {
+    background: #e7f3e9;
+    border: none;
+    color: #267b3e;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+/* PROFILE DROPDOWN */
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 52px;
+    width: 180px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.profile-dropdown.show {
+    display: block;
+}
+
+.profile-dropdown button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-dropdown button:hover {
+    background: #e8f4e9;
+}
+
+/* DASHBOARD BODY */
+.dashboard {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 160px);
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 235px;
+    background: #174f2c;
+    color: white;
+    padding: 20px 12px;
+    transition: width 0.3s;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+    width: 65px;
+}
+
+.sidebar h3 {
+    font-size: 16px;
+    margin: 5px 10px 18px;
+    white-space: nowrap;
+}
+
+.module {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 12px;
+    margin-bottom: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+    color: white;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.module:hover,
+.module.active {
+    background: #32864a;
+}
+
+.module-icon {
+    font-size: 20px;
+    min-width: 25px;
+    text-align: center;
+}
+
+.module-name {
+    font-size: 14px;
+}
+
+.sidebar.collapsed h3,
+.sidebar.collapsed .module-name {
+    display: none;
+}
+
+.sidebar.collapsed .module {
+    justify-content: center;
+    padding: 13px 5px;
+}
+
+/* MAIN AREA */
+.main-content {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.welcome-section {
+    margin-bottom: 22px;
+}
+
+.welcome-section h2 {
+    color: #246b37;
+    font-size: 25px;
+}
+
+.welcome-section p {
+    color: #777;
+    margin-top: 5px;
+}
+
+/* MOVING IMAGE SLIDER */
+.slider {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.slides {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    animation: slide 20s infinite;
+}
+
+.slides img {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes slide {
+    0%, 20% { transform: translateX(0); }
+    25%, 45% { transform: translateX(-25%); }
+    50%, 70% { transform: translateX(-50%); }
+    75%, 95% { transform: translateX(-75%); }
+    100% { transform: translateX(0); }
+}
+
+.slider-text {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding: 15px 22px;
+    border-radius: 8px;
+}
+
+.slider-text h2 {
+    font-size: 27px;
+}
+
+/* DASHBOARD CARDS */
+.dashboard-title {
+    margin: 25px 0 15px;
+    color: #246b37;
+    font-size: 20px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    border-left: 4px solid #32864a;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card .icon {
+    font-size: 29px;
+}
+
+.card h3 {
+    color: #267b3e;
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.card p {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* FOOTER */
+footer {
+    min-height: 65px;
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.social-links,
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    font-size: 21px;
+    text-decoration: none;
+    color: #267b3e;
+    font-weight: bold;
+}
+
+.footer-links a {
+    font-size: 13px;
+    text-decoration: none;
+    color: #555;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    padding: 28px;
+    border-radius: 15px;
+    position: relative;
+    animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #267b3e;
+    margin-bottom: 25px;
+}
+
+.plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.plan {
+    border: 1px solid #ddd;
+    padding: 23px 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.plan:hover {
+    border-color: #267b3e;
+    transform: translateY(-5px);
+}
+
+.plan h3 {
+    color: #267b3e;
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 29px;
+    font-weight: bold;
+    color: #333;
+    margin: 15px 0;
+}
+
+.plan p {
+    color: #777;
+    margin-bottom: 18px;
+}
+
+.plan button {
+    background: #267b3e;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 17px;
+    cursor: pointer;
+}
+
+/* EDIT PROFILE */
+.edit-form {
+    max-width: 400px;
+    margin: auto;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 12px;
+    margin: 9px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+.edit-form button {
+    width: 100%;
+    padding: 12px;
+    background: #267b3e;
+    border: none;
+    color: white;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .search-box {
+        width: 30%;
+    }
+
+    .plans {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+@media(max-width: 650px) {
+    header {
+        height: auto;
+        padding: 12px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .header-left {
+        width: 45%;
+    }
+
+    .search-box {
+        order: 3;
+        width: 100%;
+        max-width: none;
+    }
+
+    .header-right {
+        gap: 8px;
+    }
+
+    .sidebar {
+        width: 65px;
+    }
+
+    .sidebar h3,
+    .sidebar .module-name {
+        display: none;
+    }
+
+    .sidebar .module {
+        justify-content: center;
+        padding: 12px 5px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .slider {
+        height: 210px;
+    }
+
+    .slider-text h2 {
+        font-size: 19px;
+    }
+
+    footer {
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div class="header-left">
+        <div class="logo">🌿 Green Garden</div>
+        <button class="menu-btn" onclick="toggleMenu()">
+            ☰ Menu
+        </button>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="Search modules, pages...">
+        <button onclick="searchModules()">Search</button>
+    </div>
+
+    <div class="header-right">
+
+        <span id="timer">00:10:00</span>
+
+        <button class="subscribe-btn" onclick="openSubscribe()">
+            Subscribe
+        </button>
+
+        <div class="profile-container">
+
+            <button class="profile-btn" onclick="toggleProfile()">
+                👤
+            </button>
+
+            <div class="profile-dropdown" id="profileDropdown">
+                <button onclick="openEditProfile()">
+                    ✏️ Edit Profile
+                </button>
+
+                <button onclick="logout()">
+                    🚪 Log Out
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</header>
+
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <h3>MAIN MODULES</h3>
+
+        <div class="module active" onclick="selectModule(this,'Dashboard')">
+            <span class="module-icon">🏠</span>
+            <span class="module-name">Dashboard</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Base Data')">
+            <span class="module-icon">📁</span>
+            <span class="module-name">Base Data</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Sales')">
+            <span class="module-icon">🛒</span>
+            <span class="module-name">Sales</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Purchase')">
+            <span class="module-icon">📦</span>
+            <span class="module-name">Purchase</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Inventory')">
+            <span class="module-icon">🏬</span>
+            <span class="module-name">Inventory</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Production')">
+            <span class="module-icon">⚙️</span>
+            <span class="module-name">Production</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Finance')">
+            <span class="module-icon">💰</span>
+            <span class="module-name">Finance</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Export')">
+            <span class="module-icon">🚢</span>
+            <span class="module-name">Export</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Reports')">
+            <span class="module-icon">📊</span>
+            <span class="module-name">Reports</span>
+        </div>
+
+        <div class="module" onclick="selectModule(this,'Settings')">
+            <span class="module-icon">⚙️</span>
+            <span class="module-name">Settings</span>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="welcome-section">
+            <h2 id="pageTitle">Welcome to Green Garden ERP 🌿</h2>
+            <p>Manage your business operations from one place.</p>
+        </div>
+
+        <!-- IMAGE SLIDER -->
+        <div class="slider">
+
+            <div class="slides">
+
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200"
+                alt="Beautiful garden">
+
+                <img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?w=1200"
+                alt="Green plants">
+
+                <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1200"
+                alt="Gardening">
+
+                <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=1200"
+                alt="Nature garden">
+
+            </div>
+
+            <div class="slider-text">
+                <h2>Grow Your Business Naturally</h2>
+                <p>Smart Gardening & Business Management</p>
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD CARDS -->
+        <h3 class="dashboard-title">Quick Access Modules</h3>
+
+        <div class="cards" id="dashboardCards">
+
+            <div class="card" onclick="selectModule(null,'Base Data')">
+                <div class="icon">📁</div>
+                <h3>Base Data</h3>
+                <p>Manage master information</p>
+            </div>
+
+            <div class="card" onclick="selectModule(null,'Sales')">
+                <div class="icon">🛒</div>
+                <h3>Sales</h3>
+                <p>Manage sales transactions</p>
+            </div>
+
+            <div class="card" onclick="selectModule(null,'Purchase')">
+                <div class="icon">📦</div>
+                <h3>Purchase</h3>
+                <p>Manage purchase activities</p>
+            </div>
+
+            <div class="card" onclick="selectModule(null,'Inventory')">
+                <div class="icon">🏬</div>
+                <h3>Inventory</h3>
+                <p>Manage stock and products</p>
+            </div>
+
+            <div class="card" onclick="selectModule(null,'Production')">
+                <div class="icon">⚙️</div>
+                <h3>Production</h3>
+                <p>Manage production process</p>
+            </div>
+
+            <div class="card" onclick="selectModule(null,'Finance')">
+                <div class="icon">💰</div>
+                <h3>Finance</h3>
+                <p>Manage financial activities</p>
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="social-links">
+        <a href="https://facebook.com" target="_blank">f</a>
+        <a href="https://instagram.com" target="_blank">◎</a>
+        <a href="https://twitter.com" target="_blank">𝕏</a>
+        <a href="https://youtube.com" target="_blank">▶</a>
+    </div>
+
+    <div class="footer-links">
+        <a href="#" onclick="footerInfo('About Us',event)">About Us</a>
+        <a href="#" onclick="footerInfo('Contact Us',event)">Contact Us</a>
+        <a href="mailto:support@example.com">Email</a>
+        <a href="#" onclick="footerInfo('Documentation',event)">Documentation</a>
+    </div>
+
+    <div style="font-size:12px;color:#777">
+        © 2026 Green Garden
+    </div>
+
+</footer>
+
+
+<!-- SUBSCRIPTION POPUP -->
+<div class="modal" id="subscribeModal">
+
+    <div class="modal-content">
+
+        <button class="close-btn" onclick="closeModal('subscribeModal')">
+            ×
+        </button>
+
+        <h2>Choose Your Subscription Plan</h2>
+
+        <div class="plans">
+
+            <div class="plan">
+                <h3>Basic Plan</h3>
+                <div class="price">₹99/-</div>
+                <p>Validity: 1 Month</p>
+                <button onclick="choosePlan('Basic Plan','99','1 Month')">
+                    Subscribe Now
+                </button>
+            </div>
+
+            <div class="plan">
+                <h3>Standard Plan</h3>
+                <div class="price">₹399/-</div>
+                <p>Validity: 3 Months</p>
+                <button onclick="choosePlan('Standard Plan','399','3 Months')">
+                    Subscribe Now
+                </button>
+            </div>
+
+            <div class="plan">
+                <h3>Premium Plan</h3>
+                <div class="price">₹999/-</div>
+                <p>Validity: 1 Year</p>
+                <button onclick="choosePlan('Premium Plan','999','1 Year')">
+                    Subscribe Now
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- EDIT PROFILE POPUP -->
+<div class="modal" id="editModal">
+
+    <div class="modal-content" style="max-width:480px">
+
+        <button class="close-btn" onclick="closeModal('editModal')">
+            ×
+        </button>
+
+        <h2>Edit Profile</h2>
+
+        <form class="edit-form" id="editForm">
+
+            <label>Full Name</label>
+            <input type="text" id="editName"
+            placeholder="Enter full name" required>
+
+            <label>Email Address</label>
+            <input type="email" id="editEmail"
+            placeholder="Enter email address" required>
+
+            <label>Phone Number</label>
+            <input type="tel" id="editPhone"
+            placeholder="Enter phone number">
+
+            <button type="submit">Save Changes</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* SIDEBAR MENU */
+function toggleMenu() {
+    document.getElementById("sidebar")
+    .classList.toggle("collapsed");
+}
+
+
+/* PROFILE DROPDOWN */
+function toggleProfile() {
+    document.getElementById("profileDropdown")
+    .classList.toggle("show");
+}
+
+document.addEventListener("click", function(event) {
+
+    const profile = document.querySelector(".profile-container");
+
+    if (!profile.contains(event.target)) {
+        document.getElementById("profileDropdown")
+        .classList.remove("show");
+    }
+
+});
+
+
+/* SUBSCRIPTION POPUP */
+function openSubscribe() {
+    document.getElementById("subscribeModal")
+    .classList.add("show");
+}
+
+function choosePlan(name, price, validity) {
+
+    alert(
+        "Selected Plan: " + name +
+        "\nAmount: ₹" + price +
+        "\nValidity: " + validity +
+        "\n\nContinue to payment integration."
+    );
+
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("show");
+}
+
+
+/* EDIT PROFILE */
+function openEditProfile() {
+
+    document.getElementById("profileDropdown")
+    .classList.remove("show");
+
+    document.getElementById("editModal")
+    .classList.add("show");
+
+}
+
+document.getElementById("editForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    alert("Profile details saved successfully!");
+
+    closeModal("editModal");
+
+});
+
+
+/* LOGOUT */
+function logout() {
+
+    if (confirm("Are you sure you want to log out?")) {
+
+        window.location.href = "index.html";
+
+    }
+
+}
+
+
+/* MODULE SELECTION */
+function selectModule(element, moduleName) {
+
+    document.querySelectorAll(".module")
+    .forEach(function(item) {
+        item.classList.remove("active");
+    });
+
+    if (element) {
+        element.classList.add("active");
+    } else {
+        document.querySelectorAll(".module").forEach(function(item) {
+            if (item.innerText.includes(moduleName)) {
+                item.classList.add("active");
+            }
+        });
+    }
+
+    document.getElementById("pageTitle").textContent =
+        moduleName === "Dashboard"
+        ? "Welcome to Green Garden ERP 🌿"
+        : moduleName + " Module";
+
+}
+
+
+/* SEARCH MODULES */
+function searchModules() {
+
+    let search = document.getElementById("searchInput")
+    .value.toLowerCase().trim();
+
+    let modules = document.querySelectorAll(".module");
+    let cards = document.querySelectorAll(".card");
+    let found = false;
+
+    modules.forEach(function(item) {
+
+        let match = item.innerText.toLowerCase().includes(search);
+
+        item.style.display = (search === "" || match)
+            ? "flex" : "none";
+
+        if (match && search !== "") found = true;
+
+    });
+
+    cards.forEach(function(card) {
+
+        let match = card.innerText.toLowerCase().includes(search);
+
+        card.style.display = (search === "" || match)
+            ? "block" : "none";
+
+        if (match && search !== "") found = true;
+
+    });
+
+    if (search !== "" && !found) {
+        alert("No matching module found!");
+    }
+
+}
+
+document.getElementById("searchInput")
+.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        searchModules();
+    }
+});
+
+
+/* FOOTER LINKS */
+function footerInfo(name, event) {
+    event.preventDefault();
+    alert(name + " page coming soon!");
+}
+
+
+/* CLOSE MODAL ON OUTSIDE CLICK */
+document.querySelectorAll(".modal").forEach(function(modal) {
+
+    modal.addEventListener("click", function(event) {
+
+        if (event.target === modal) {
+            modal.classList.remove("show");
+        }
+
+    });
+
+});
+
+
+/* SESSION TIMER */
+const SESSION_TIME = 10 * 60;
+let remainingTime = SESSION_TIME;
+let timerInterval;
+
+function updateTimer() {
+
+    let h = Math.floor(remainingTime / 3600);
+    let m = Math.floor((remainingTime % 3600) / 60);
+    let s = remainingTime % 60;
+
+    document.getElementById("timer").textContent =
+        String(h).padStart(2,"0") + ":" +
+        String(m).padStart(2,"0") + ":" +
+        String(s).padStart(2,"0");
+
+}
+
+function resetTimer() {
+
+    remainingTime = SESSION_TIME;
+    updateTimer();
+
+}
+
+function startTimer() {
+
+    timerInterval = setInterval(function() {
+
+        if (remainingTime > 0) {
+
+            remainingTime--;
+            updateTimer();
+
+        } else {
+
+            clearInterval(timerInterval);
+
+            alert("Your session has expired. Please login again.");
+
+            window.location.href = "index.html";
+
+        }
+
+    }, 1000);
+
+}
+
+["mousemove","keydown","click","scroll","touchstart"]
+.forEach(function(eventName) {
+
+    document.addEventListener(eventName, resetTimer);
+
+});
+
+updateTimer();
+startTimer();
+
+</script>
+
+</body>
+</html>
